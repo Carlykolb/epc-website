@@ -1,0 +1,9 @@
+Put your existing website files here (the index.html you already built,
+plus any images or other assets it references).
+
+Once they're in this folder, the server will serve them automatically -
+visiting your domain's root will load index.html just like it does now on
+the static site, except the page's login form will need to be updated to
+call the real /api/auth/login and /api/auth/signup endpoints instead of the
+placeholder JavaScript check it currently has. Happy to help wire that part
+up once you've moved the file in here.
