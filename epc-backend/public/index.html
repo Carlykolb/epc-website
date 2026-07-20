@@ -345,8 +345,8 @@ footer{background:var(--charcoal);color:#fff;padding:72px 0 0}
         <div class="login-h">Client Portal Login</div>
         <div class="login-sub">Access your account, orders & pricing</div>
         <div class="form-field">
-          <label>Username</label>
-          <input type="text" placeholder="Enter your username">
+          <label>Email</label>
+          <input type="text" placeholder="Enter your email">
         </div>
         <div class="form-field">
           <label>Password</label>
@@ -953,7 +953,7 @@ footer{background:var(--charcoal);color:#fff;padding:72px 0 0}
       <div class="login-card" style="background:rgba(255,255,255,.04);border:1px solid rgba(200,164,32,.25);padding:48px">
         <div class="login-h">Sign In to Your Account</div>
         <div class="login-sub" style="margin-bottom:32px">Access orders, pricing, and account management</div>
-        <div class="form-field"><label>Username</label><input type="text" placeholder="Enter your username"></div>
+        <div class="form-field"><label>Email</label><input type="text" placeholder="Enter your email"></div>
         <div class="form-field"><label>Password</label><input type="password" placeholder="Enter your password"></div>
         <button class="login-btn" onclick="handleLogin()">Sign In</button>
         <div class="login-forgot" style="margin-top:16px"><a href="#">Forgot your password?</a></div>
@@ -1076,9 +1076,7 @@ async function checkAuth() {
       isLoggedIn = true;
       updateNavForAuth(true);
     }
-  } catch(e) {
-    // Not logged in or backend not yet live — that's fine
-  }
+  } catch(e) {}
 }
 
 function updateNavForAuth(loggedIn) {
@@ -1094,13 +1092,13 @@ function updateNavForAuth(loggedIn) {
 }
 
 async function handleLogin() {
-  const usernameEl = document.querySelector('#page-login input[type="text"], .login-card input[type="text"]');
+  const emailEl = document.querySelector('#page-login input[type="text"], .login-card input[type="text"]');
   const passwordEl = document.querySelector('#page-login input[type="password"], .login-card input[type="password"]');
 
-  if (!usernameEl || !passwordEl) { alert('Login form not found.'); return; }
-  const username = usernameEl.value.trim();
+  if (!emailEl || !passwordEl) { alert('Login form not found.'); return; }
+  const email = emailEl.value.trim();
   const password = passwordEl.value.trim();
-  if (!username || !password) { alert('Please enter your username and password.'); return; }
+  if (!email || !password) { alert('Please enter your email and password.'); return; }
 
   const btn = document.querySelector('.login-btn');
   if (btn) { btn.textContent = 'Signing in…'; btn.disabled = true; }
@@ -1110,18 +1108,18 @@ async function handleLogin() {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       credentials: 'include',
-      body: JSON.stringify({username, password})
+      body: JSON.stringify({email, password})
     });
 
     if (res.ok) {
       isLoggedIn = true;
       updateNavForAuth(true);
-      if (usernameEl) usernameEl.value = '';
+      if (emailEl) emailEl.value = '';
       if (passwordEl) passwordEl.value = '';
       showPage('products');
     } else {
       const data = await res.json().catch(() => ({}));
-      showLoginError(data.error || 'Invalid username or password.');
+      showLoginError(data.error || 'Invalid email or password.');
     }
   } catch(e) {
     showLoginError('Unable to connect. Please try again.');
